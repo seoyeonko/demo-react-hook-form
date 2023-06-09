@@ -11,6 +11,16 @@ const departments = [
   { value: 'Mathematics', label: 'Mathematics' },
 ];
 
+const initialValues = {
+  gender: 'male',
+  skills: {
+    JavaScript: true,
+    react: false,
+    nodejs: true,
+    angular: false,
+  },
+};
+
 export default function App() {
   const [successMsg, setSuccessMsg] = useState('');
 
@@ -20,7 +30,15 @@ export default function App() {
     handleSubmit, // form submit시 호출
     formState: { errors }, // validation error
     reset, // clear form
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      gender: initialValues.gender,
+      skills: Object.keys(initialValues.skills).filter(
+        (item) => initialValues.skills[item] === true
+      ),
+      // skills: ['JavaScript', 'nodejs'],
+    },
+  });
 
   // console.log({ ...register('email') });
 
