@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './styles.css';
 
 export default function App() {
+  const [successMsg, setSuccessMsg] = useState('');
+
   const {
     register, // input 할당, value 변경 감지
     handleSubmit, // form submit시 호출
     formState: { errors }, // validation error
+    reset, // clear form
   } = useForm();
 
   // console.log({ ...register('email') });
@@ -14,10 +17,17 @@ export default function App() {
   const onSubmit = (data) => {
     const { email, password } = data;
     console.log(email, password);
+    setSuccessMsg('User registration is successful.');
+    reset();
+    // reset({
+    //   email: 'hihi@abc.com',
+    //   password: 'Happy1234!',
+    // });
   };
 
   return (
     <div className="App">
+      {successMsg && <p className="success-msg">{successMsg}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control">
           <label>Email</label>
