@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import './styles.css';
@@ -51,9 +52,9 @@ export default function App() {
             <p className="errorMsg">This is a required field.</p>
           )}
         </div>
-        <div className="form-control">
-          <label>Email</label>
-          <input
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
             type="text"
             name="email"
             {...register('email', {
@@ -64,11 +65,10 @@ export default function App() {
               },
             })}
           />
-          {errors.email && <p className="errorMsg">{errors.email.message}</p>}
-        </div>
-        <div className="form-control">
-          <label>Password</label>
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="password">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
             name="password"
             {...register('password', {
@@ -88,26 +88,55 @@ export default function App() {
               },
             })}
           />
-          {/* {errors.password && (
-            <p className="errorMsg">{errors.password.message}</p>
-          )} */}
-
-          {/* multiple validations */}
-          {errors.password?.type === 'required' && (
-            <p className="errorMsg">Password is required.</p>
-          )}
-          {errors.password?.type === 'checkLength' && (
-            <p className="errorMsg">
-              Password should be at-least 6 characters.
-            </p>
-          )}
-          {errors.password?.type === 'matchPattern' && (
-            <p className="errorMsg">
-              Password should contain at least one uppercase letter, lowercase
-              letter, digit, and special symbol.
-            </p>
-          )}
-        </div>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="gender">
+          <Form.Label>Select Gender</Form.Label>
+          <Form.Check
+            type="radio"
+            label="Male"
+            value="male"
+            {...register('gender', {
+              required: 'Please select your gender',
+            })}
+          />
+          <Form.Check
+            type="radio"
+            label="Female"
+            value="female"
+            {...register('gender')}
+          />
+          {errors.gender && <p className="errorMsg">{errors.gender.message}</p>}
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="skills">
+          <Form.Label>Select Your Skills</Form.Label>
+          <Form.Check
+            type="checkbox"
+            label="JavaScript"
+            value="JavaScript"
+            {...register('skills', {
+              required: 'Please select at-least one skill',
+            })}
+          />
+          <Form.Check
+            type="checkbox"
+            label="React"
+            value="react"
+            {...register('skills')}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Node.js"
+            value="nodejs"
+            {...register('skills')}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Angular"
+            value="angular"
+            {...register('skills')}
+          />
+          {errors.skills && <p className="errorMsg">{errors.skills.message}</p>}
+        </Form.Group>
         <div className="form-control">
           <label></label>
           <button type="submit">Login</button>
