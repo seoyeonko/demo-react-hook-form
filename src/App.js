@@ -41,14 +41,39 @@ export default function App() {
             name="password"
             {...register('password', {
               required: 'Password is required.',
-              minLength: {
-                value: 6,
-                message: 'Password should be at-least 6 characters.',
+              // minLength: {
+              //   value: 6,
+              //   message: 'Password should be at-least 6 characters.',
+              // },
+
+              // multiple validations
+              validate: {
+                checkLength: (value) => value.length >= 6,
+                matchPattern: (value) =>
+                  /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
+                    value
+                  ),
               },
             })}
           />
-          {errors.password && (
+          {/* {errors.password && (
             <p className="errorMsg">{errors.password.message}</p>
+          )} */}
+
+          {/* multiple validations */}
+          {errors.password?.type === 'required' && (
+            <p className="errorMsg">Password is required.</p>
+          )}
+          {errors.password?.type === 'checkLength' && (
+            <p className="errorMsg">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+          {errors.password?.type === 'matchPattern' && (
+            <p className="errorMsg">
+              Password should contain at least one uppercase letter, lowercase
+              letter, digit, and special symbol.
+            </p>
           )}
         </div>
         <div className="form-control">
