@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
 import './styles.css';
+
+const departments = [
+  { value: 'Computer-Science', label: 'Computer Science' },
+  { value: 'Physics', label: 'Physics' },
+  { value: 'Chemistry', label: 'Chemistry' },
+  { value: 'Mathematics', label: 'Mathematics' },
+];
 
 export default function App() {
   const [successMsg, setSuccessMsg] = useState('');
 
   const {
+    control,
     register, // input 할당, value 변경 감지
     handleSubmit, // form submit시 호출
     formState: { errors }, // validation error
@@ -15,8 +24,7 @@ export default function App() {
   // console.log({ ...register('email') });
 
   const onSubmit = (data) => {
-    const { email, password } = data;
-    console.log(email, password);
+    console.log(data);
     setSuccessMsg('User registration is successful.');
     reset();
     // reset({
@@ -29,6 +37,20 @@ export default function App() {
     <div className="App">
       {successMsg && <p className="success-msg">{successMsg}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-control">
+          <label>Select Department of Interest</label>
+          <Controller
+            name="department"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Select {...field} isMulti options={departments} />
+            )}
+          />
+          {errors.department && (
+            <p className="errorMsg">This is a required field.</p>
+          )}
+        </div>
         <div className="form-control">
           <label>Email</label>
           <input
